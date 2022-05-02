@@ -13,6 +13,9 @@ export class AppComponent {
   flag:any = 0
   word:any = { eng: null, tam: null, pron: null, syn: null }
   ipword:string = '';
+  sent_flag:any = 0
+  sent:any = {tam: null, pron: null}
+
 
   constructor(private serv:FileService){
     
@@ -28,16 +31,35 @@ export class AppComponent {
   }
 
   sendWord() {
-    this.serv.getTranslation(this.ipword)
-      .subscribe((data:any) => this.word = {
-        eng : data.eng,
-        tam : data.tam,
-        pron : data.pron,
-        syn : data.syn
-      });
-      this.flag = 1
-      // console.log(this.word)
-      return this.word
+    this.flag = 0
+    this.sent_flag = 0
+    
+    if(!this.ipword.includes(" ")) {
+      this.serv.getTranslation(this.ipword)
+        .subscribe((data:any) => this.word = {
+          eng : data.eng,
+          tam : data.tam,
+          pron : data.pron,
+          syn : data.syn
+        });
+
+        console.log(this.ipword)
+        setTimeout(()=>{this.flag=1},800)
+        
+        // console.log(this.word)
+        return this.word
+    }
+    else {
+      this.serv.getSentence(this.ipword)
+        .subscribe((data:any) => this.sent = {
+          tam : data.tam,
+          pron : data.pron,
+        });
+
+        console.log(this.sent)
+        setTimeout(()=>{this.sent_flag=1},800)
+        return this.sent
+    }
   }
   
 }

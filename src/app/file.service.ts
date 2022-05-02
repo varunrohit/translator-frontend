@@ -10,6 +10,7 @@ export class FileService {
 
   configUrl = "assets/config.json"
   dicUrl = "http://127.0.0.1:9000/translator/"
+  sentUrl = "http://127.0.0.1:9000/translator/sent/"
 
 
   constructor(private http: HttpClient) { }
@@ -20,6 +21,10 @@ export class FileService {
 
   getTranslation(word: string) {
     return this.http.post(this.dicUrl, { "wor" : word })
+  }
+
+  getSentence(sent: string) {
+    return this.http.post(this.sentUrl, { "wor" : sent })
   }
 
 }
